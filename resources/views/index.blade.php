@@ -8,14 +8,17 @@
     </head>
     <body>
         <h1>Blog Name</h1>
+        <p class='create'>[<a href='/posts/create'>create</a>]</p>
         <div class='posts'>
             @foreach ($posts as $post) 
+            <!--postsはpostcontrollerのwithの後ろのpostsからきている-->
             <!--$postsという変数名で$postに中に入っているデータを取得できる-->
                 <div class='post'>
                     <a href='/posts/{{ $post->id }}'<h2 class='title'>{{$post->title}}</h2></a>
                     <p class='body'>{{$post->body}}</p>
                 </div>
             @endforeach
+            <!--$postを使う時はforeachの中-->
         </div>
         <div class='paginate'>
             {{ $posts->links() }}
