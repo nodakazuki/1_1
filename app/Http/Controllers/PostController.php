@@ -39,5 +39,15 @@ class PostController extends Controller
         // formのデータを送らせて$requestで受け取る
     // 　　$requestを$inputに入れて保存
       
+    public function edit(Post $post)
+    {
+        return view('edit')->with(['post' => $post]);
+    }
     
+    public function update(Request $request, Post $post)
+    {
+        $input = $request['post'];
+        $post->fill($input)->save();
+        return redirect('/posts/', $post->id);
+    }
 }
