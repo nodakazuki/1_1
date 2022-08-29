@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 // APP/Postをこのファイルで使えるようにする
 // $postはPOSTモデルでAPP/POSTとつながっている
 class PostController extends Controller
@@ -11,10 +11,11 @@ class PostController extends Controller
     public function index(Post $post)
     {
         return view('index')->with(['posts' => $post->getPaginateByLimit()]);
-        // indexに対してデータベースのデータを取得して渡す(変数postsに対してpost1,poat2とデータが入っている)
-        //   Postをインスタンス化して使う
+        // indexに対してデータベースのデータを取得して渡す(変数postsに対してpost1,poat2とデータが入っている
+        // 変数名postsでpostテーブルの全データを渡す
+        // Postをインスタンス化して使う
         // postsはindexで使える変数$postsとつながっている
-        // $postの中にはPOST.phpでPOSTモデルのデータがある
+        // $postの中にはPost.phpでPOSTモデルのデータがある
         // $postをpostsに代入している
         // viewに一緒に持っていくwith
     }
@@ -29,10 +30,14 @@ class PostController extends Controller
         return view('create');
     }
     
-    public function store(Post $post, Request $request)
+    public function store(Post $post, PostRequest $request)
     {
         $input = $request['post'];
         $post->fill($input)->save();
-        return redirect('/post/' ,$post->id);
+        return redirect('/post/' .$post->id);
     }
+        // formのデータを送らせて$requestで受け取る
+    // 　　$requestを$inputに入れて保存
+      
+    
 }
