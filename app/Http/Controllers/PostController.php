@@ -15,14 +15,23 @@ class PostController extends Controller
         // 変数名postsでpostテーブルの全データを渡す
         // Postをインスタンス化して使う
         // postsはindexで使える変数$postsとつながっている
-        // $postの中にはPost.phpでPOSTモデルのデータがある
+        // $postの中にはPost.phpでPostモデルのデータがある
         // $postをpostsに代入している
         // viewに一緒に持っていくwith
+        // どのモデルを使うか
     }
 
     public function show(Post $post)
     {
         return view('show')->with(['post' => $post]);
+        // showに対してデータベースのデータを取得して渡す(変数postに対してpost1,poat2とデータが入っている
+        // 変数名postでpostテーブルの全データを渡す
+        // Postをインスタンス化して使う
+        // postはshowで使える変数$postとつながっている
+        // $postの中にはPost.phpでPostモデルのデータがある
+        // $postをpostに代入している
+        // viewに一緒に持っていくwith
+        // どのモデルを使うか
     }
     
     public function create()
