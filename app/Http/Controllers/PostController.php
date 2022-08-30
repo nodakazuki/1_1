@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Http\Requests\PostRequest;
+use Illuminate\Http\Request;
 // APP/Postをこのファイルで使えるようにする
 // $postはPOSTモデルでAPP/POSTとつながっている
 class PostController extends Controller
@@ -30,7 +31,7 @@ class PostController extends Controller
         return view('create');
     }
     
-    public function store(Post $post, PostRequest $request)
+    public function store(PostRequest $request, Post $post)
     {
         $input = $request['post'];
         $post->fill($input)->save();
@@ -38,6 +39,18 @@ class PostController extends Controller
     }
         // formのデータを送らせて$requestで受け取る
     // 　　$requestを$inputに入れて保存
+    
+    public function edit(Post $post)
+    {
+        return view('edit')->with(['post' => $post]);
+    }
+    
+    public function update(Request $request, Post $post)
+    {
+        $input = $request['post'];
+        $post->fill($input)->save();
+        return redirect('/posts/' ,$post->id);
+    }
       
     
 }
