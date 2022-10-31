@@ -6,7 +6,12 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
     </head>
+   
     <body>
+        @extends('layouts.app')
+    
+        @section('content')
+       
         <h1>Blog Name</h1>
         <p class='create'>[<a href='/posts/create'>create</a>]</p>
         <div class='posts'>
@@ -23,5 +28,11 @@
         <div class='paginate'>
             {{ $posts->links() }}
         </div>
+        <a href="">{{ $post->category->name }}</a>
+        <a href="/categories/{{ $post->category->id }}">{{ $post->category->name }}</a>
+        @endsection
+       
     </body>
+    
+    
 </html>

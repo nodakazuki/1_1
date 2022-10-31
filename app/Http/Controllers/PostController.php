@@ -5,50 +5,75 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
-// APP/Postをこのファイルで使えるようにする
-// $postはPOSTモデルでAPP/POSTとつながっている
+use App\Category;
+use App\Store;
+// APP\Postをこのファイルで使えるようにする
+// $postはPOSTモデルでAPP\POSTとつながっている
 class PostController extends Controller
 {
-    public function index(Post $post)
+    public function index(Store $store)
     {
-        return view('index')->with(['posts' => $post->getPaginateByLimit()]);
+        $results = Post::where('store_id','=',$store->id)->get();
+        
+        return view('posts/index')->with(['posts'=> $results]);
         // indexに対してデータベースのデータを取得して渡す(変数postsに対してpost1,poat2とデータが入っている
         // 変数名postsでpostテーブルの全データを渡す
         // Postをインスタンス化して使う
         // postsはindexで使える変数$postsとつながっている
-        // $postの中にはPost.phpでPOSTモデルのデータがある
-        // $postをpostsに代入している
+        // $postの中にはPost.phpでPostモデルのデータがある
+        // $postのgetPaginateByLimit()をpostsに代入している
         // viewに一緒に持っていくwith
     }
 
     public function show(Post $post)
     {
-        return view('show')->with(['post' => $post]);
+        return view('posts/show')->with(['post' => $post]);
+         // showに対してデータベースのデータを取得して渡す(変数postに対してpost1,poat2とデータが入っている
+        // 変数名postでpostテーブルの全データを渡す
+        // Postをインスタンス化して使う
+        // postはshowで使える変数$postとつながっている
+        // $postの中にはPost.phpでPostモデルのデータがある
+        // $postをpostに代入している
+        // viewに一緒に持っていくwith
     }
     
-    public function create()
+    public function create(Store $store)
     {
-        return view('create');
+        
+        return view('posts/create')->with(['store' => $store]);
     }
+    // createにはcategoryだけ写す必要がある
     
-    public function store(PostRequest $request, Post $post)
+    public function store(Request $request, Post $post)
     {
         $input = $request['post'];
+        $input += ['user_id'=>$request->user()->id];
         $post->fill($input)->save();
-        return redirect('/post/' .$post->id);
+        return redirect('/stores/' .$input['store_id']);
     }
-        // formのデータを送らせて$requestで受け取る
-    // 　　$requestを$inputに入れて保存
-    
+    // formのデータを送らせて$requestで受け取る
+    // $requestを$inputに入れて保存
+    // $requestのpostはinputの中のnameと一致している
+    // fillはPostのfillableとつながっている
+    // PostRequestはデータを送信するため必要である
     public function edit(Post $post)
     {
-        return view('edit')->with(['post' => $post]);
+        // Postは設計書で$postは設計書道理作られたロボット
+        return view('posts/edit')->with(['post' => $post]);
+          // editに対してデータベースのデータを取得して渡す(変数postに対してpost1,poat2とデータが入っている
+        // 変数名postでpostテーブルの全データを渡す
+        // Postをインスタンス化して使う
+        // postはeditで使える変数$postとつながっている
+        // $postの中にはPost.phpでPostモデルのデータがある
+        // $postをpostに代入している
+        // viewに一緒に持っていくwith
     }
     
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
         $input = $request['post'];
-        $post->fill($input)->save();
+        $input_post += ['user_id'=>$request->user()->id];
+        $post->fill($input_post)->save();
         return redirect('/posts/' ,$post->id);
     }
     
@@ -57,5 +82,6 @@ class PostController extends Controller
         $post->delete();
         return redirect('/');
     }
+    
     
 }

@@ -6,7 +6,12 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
     </head>
+   
     <body>
+        @extends('layouts.app')
+    
+        @section('content')
+        
         <h1>Blog Name</h1>
         <form action='/posts/{{ $post->id }}' method='POST'>
             {{ csrf_field() }}
@@ -23,5 +28,7 @@
             <input type="submit" value="update">
         </form>
         <div class='back'>[<a href="/posts/{{ $post->id }}">back</a>]</div>
+        @endsection
+       
     </body>
 </html>
